@@ -131,6 +131,7 @@ def get_im_data(base_path):
 
 
 if __name__ == '__main__':
+    enumeration_offset = 11 # to be able to combine multiple datasets
     raw_data = os.path.join('..', 'data', 'raw_sim_data')
     proc_data = os.path.join('..', 'data', 'processed_sim_data')
 
@@ -146,12 +147,12 @@ if __name__ == '__main__':
 
         # validation
         if i[1][1]: 
-             move_png_to_jpeg(i[0], out_val_dir, e)
-             move_labels(i[0], out_val_dir, e)
+             move_png_to_jpeg(i[0], out_val_dir, e + enumeration_offset)
+             move_labels(i[0], out_val_dir, e + enumeration_offset)
         # train 
         else:
-             move_png_to_jpeg(i[0], out_train_dir, e)
-             move_labels(i[0], out_train_dir, e)
+             move_png_to_jpeg(i[0], out_train_dir, e + enumeration_offset)
+             move_labels(i[0], out_train_dir, e + enumeration_offset)
 
 
     combine_masks(out_val_dir)
