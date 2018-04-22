@@ -12045,7 +12045,7 @@ Alternatively, you can collect additional data of your own to improve your model
     <span class="n">decoder_1</span> <span class="o">=</span> <span class="n">decoder_block</span><span class="p">(</span><span class="n">encoded</span><span class="p">,</span> <span class="n">encoder_2</span><span class="p">,</span> <span class="mi">200</span><span class="p">)</span>
     <span class="c1"># upsamp(decoder_1)+ encoder_1 80x80x(200+32) -&gt; decoder_2 80x80x100</span>
     <span class="n">decoder_2</span> <span class="o">=</span> <span class="n">decoder_block</span><span class="p">(</span><span class="n">decoder_1</span><span class="p">,</span> <span class="n">encoder_1</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
-    <span class="c1"># upsamp(decoder_2)+ encoder_0 180x180x(100+10) -&gt; decoder_3 180x180x32</span>
+    <span class="c1"># upsamp(decoder_2)+ encoder_0 160x160x(100+10) -&gt; decoder_3 160x160x32</span>
     <span class="n">decoder_3</span> <span class="o">=</span> <span class="n">decoder_block</span><span class="p">(</span><span class="n">decoder_2</span><span class="p">,</span> <span class="n">encoder_0</span><span class="p">,</span> <span class="mi">32</span><span class="p">)</span>
     
     <span class="n">x</span> <span class="o">=</span> <span class="n">decoder_3</span>
@@ -41240,7 +41240,7 @@ AABJRU5ErkJggg==
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Save your trained model weights</span>
-<span class="n">weight_file_name</span> <span class="o">=</span> <span class="s1">&#39;model_weights_aws_final&#39;</span>
+<span class="n">weight_file_name</span> <span class="o">=</span> <span class="s1">&#39;model_weights.h5&#39;</span>
 <span class="n">model_tools</span><span class="o">.</span><span class="n">save_network</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">weight_file_name</span><span class="p">)</span>
 </pre></div>
 

@@ -131,7 +131,7 @@ def get_im_data(base_path):
 
 
 if __name__ == '__main__':
-    enumeration_offset = 11 # to be able to combine multiple datasets
+    enumeration_offset = 45 # to be able to combine multiple datasets
     raw_data = os.path.join('..', 'data', 'raw_sim_data')
     proc_data = os.path.join('..', 'data', 'processed_sim_data')
 
