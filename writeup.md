@@ -36,7 +36,21 @@ The encoder block is basically a separable 2d convolution layer applying filter 
 
 ### Separable 2d convolution
 Convolution layers have proven to be a successfull tool at extracting information from inputs where local neighbourhoods of  neurons are known (or at least supposed) to be statistically dependent.   
-!TODO explain sep 2d conv 
+We use a specific type of convolution called separable 2d convolution. It is considered (depthwise) separable because the calculation of the feature maps can be split into first traversing each input map with a filter kernel creating a feature map with the same depth as the input and then combining the result using a 1x1 convolution layer to produce the desired amount of output features.
+Consider an input layer of depth *i*, convolution kernels with dimensions *(k x k)* and an output of *o* desired feature maps.
+
+A conventional convolution layer would need to traverse the entire volume of *i * k * k* for each of the *o* output maps. Not considering biases, this results in a total of *i * k * k * o* parameters.
+
+The depthwise separable convolution first creates a new feature map by applying a *(k x k)* filter kernel to each of the *i* input maps resulting in a *(1 x 1 x i)* map. This map is then traversed by a 1x1 convolutional layer (described in-depth in the next section) which combines the intermediate features to the desired *o* output maps.
+This requires *i * k * k* parameters for the first and *i * o* parameters for the second convolution. Without biases this results in *i * (k * k + o)* trainable weights.   
+Analysing this for some layers of the final FCN architecture we see that the usage of separable convolutions reduces the amount of weights drastically.
+
+type|  parameters for *i=3, k=3, o=10* | parameters for *i=16, k=3, o=32* |
+-|-|-
+conv | 3 * 3 * 3 * 10 = 270 | 16 * 3 * 3 * 32 = 4608
+conv 2d separable | 3 * (3 * 3 + 16)= 57 | 16 * (3 * 3 + 32) = 656
+
+This reduction of parameters makes that type of convolution easier to train and the addition of more output layers scales the amount of weights independent of the kernel size. 
 
 ### Batch normalization
 The technique of batch normalization in its essence does what every machine learning engineer is supposed to do as a data preprocessing step; it normalizes the data to have zero mean and unit variance. In constrast to the engineer, the normalization can be applied to any layer within the network where it then scales and offsets the activations for each batch being processed such that they have these desireable statistics. These properties make the optimization problem during training easier by producing more stable gradients which then allows for the usage of higher learning rates.
@@ -127,9 +141,9 @@ parameter|value
 -|-
 epochs | 100
 batchsize | 64
-learning rate (epoch 0-3) | 0.01 
+learning rate (epoch 0-2) | 0.01 
 learning rate (epoch 3-10) | 0.001
-learning rate (epoch 10-100) | 0.001 * 0.975^epoch 
+learning rate (epoch 11-100) | 0.001 * 0.975^epoch 
 steps (per epoch) | 200
 validation steps (per epoch) | 50
 
